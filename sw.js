@@ -1,12 +1,12 @@
-/* 919：電波がなくても読めるようにするしくみ */
-const CACHE = '919-v1';
-const FILES = ['./', './index.html', './919.html', './919-cover.jpg', './manifest.webmanifest',
+/* 0919：電波がなくても読めるようにするしくみ */
+const CACHE = '0919-v1';
+const FILES = ['./', './index.html', './0919.html', './0919-cover.jpg', './manifest.webmanifest',
                './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon-32.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('919-') && k !== CACHE).map(k => caches.delete(k))))
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('0919-') && k !== CACHE).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', e => {
