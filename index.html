@@ -125,6 +125,7 @@ button{font:inherit;color:inherit}
 .ticket .close{border:0;background:none;color:#6F7A7E;cursor:pointer;font-size:14px;letter-spacing:.2em;padding:6px}
 .ticket .haikyu{border-color:#C6CBC8;color:#2A2F33}
 .rec li.memo{border-bottom:1px solid var(--line);padding:4px 2px 12px}
+.rec li[hidden],[hidden]{display:none !important}
 .rec li.memo .mt{font-family:var(--dotf);font-size:12px;letter-spacing:.12em;color:var(--print)}
 .ticket .chs{margin-top:14px;border-top:1px dashed #C6CBC8;padding-top:10px}
 .ticket .chs summary{cursor:pointer;font-size:14px;letter-spacing:.24em;color:#2A2F33;list-style:none;padding:4px 0}
@@ -230,7 +231,7 @@ button{font:inherit;color:inherit}
   else{set('919:gate',day());setTimeout(function(){gate.classList.add('off')},50);setTimeout(function(){gate.hidden=true},1700);gate.addEventListener('click',function(){gate.hidden=true})}
 
   var CH=[{"n": "序章", "t": "茶碗", "b": 0}, {"n": "第一章", "t": "919", "b": 40}, {"n": "第二章", "t": "豆と米", "b": 83}, {"n": "第三章", "t": "跡", "b": 121}, {"n": "第四章", "t": "七本", "b": 153}, {"n": "第五章", "t": "空振り", "b": 190}, {"n": "第六章", "t": "二度目", "b": 232}, {"n": "第七章", "t": "525", "b": 264}, {"n": "第八章", "t": "918", "b": 291}, {"n": "第九章", "t": "白", "b": 331}, {"n": "第十章", "t": "移送", "b": 353}, {"n": "第十一章", "t": "偶数", "b": 386}, {"n": "第十二章", "t": "器と中身", "b": 434}, {"n": "終章", "t": "一人前", "b": 493}];
-  var done=!!get('done:'+TITLE), bm=get('shiori:'+TITLE);
+  var done=!!get('919:done:'+TITLE), bm=get('shiori:'+TITLE);
   var bmCh=-1; try{var bo=bm?JSON.parse(bm):null; if(bo&&bo.s!=null){for(var i=0;i<CH.length;i++){if(CH[i].b<=bo.s)bmCh=i;}}}catch(e){}
   if(done){document.getElementById('ep1done').hidden=false;var r=document.getElementById('rec1');r.textContent='919　観察済み';r.classList.add('ok')}
   if(done){document.getElementById('memo1').hidden=false}

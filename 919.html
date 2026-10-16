@@ -615,7 +615,13 @@ function update(dir){
   bi.hidden = !(bm && bp>0);
   if(bp>0) bi.textContent = 'しおりのページへ（' + bp + '）';
   const last = pages.length-1;
-  /* DONEFIX */ try{ if(last>0 && visiblePages().indexOf(last)>=0) localStorage.setItem('done:'+DATA.title,'1'); }catch(e){}
+  /* DONEFIX2：最後のページが画面に出たら読了 */ try{
+    var _vk='919:seen:'+DATA.title, _seen={}; try{ _seen=JSON.parse(localStorage.getItem(_vk)||'{}'); }catch(e){}
+    visiblePages().forEach(function(p){ var ci=-1; for(var i=0;i<chapPage.length;i++){ if(chapPage[i]!=null && chapPage[i]<=p) ci=i; } if(ci>=0) _seen[ci]=1; });
+    localStorage.setItem(_vk, JSON.stringify(_seen));
+    var _all = DATA.chapters.every(function(c,i){ return !!_seen[i]; });
+    if(last>0 && visiblePages().indexOf(last)>=0) localStorage.setItem('919:done:'+DATA.title,'1');
+  }catch(e){}
   const prog = last>0 ? idx/last : 0;
   document.getElementById('liq').setAttribute('width', Math.max(0, 259*(1-prog)).toFixed(1));
   document.getElementById('finalmark').classList.toggle('show', idx===last);
