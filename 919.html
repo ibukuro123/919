@@ -757,6 +757,10 @@ function fitCov(){
 }
 window.addEventListener('resize', function(){ setTimeout(fitCov, 250); });
 
+/* CHJUMP: トップページからの「章をえらぶ」 */
+(function(){ var m=location.search.match(/[?&]ch=(\d+)/); if(!m) return; var c=+m[1];
+  var t=function(n){ try{ if(typeof chapPage!=='undefined' && chapPage[c]){ idx=chapPage[c]; update(0); return; } }catch(e){} if(n>0) setTimeout(function(){ t(n-1); },300); };
+  setTimeout(function(){ t(6); },300); })();
 /* shioriAuto: トップページからの「しおりの続きから」 */
 if(/[?&]shiori=1/.test(location.search)){
   var _try=function(n){

@@ -94,6 +94,10 @@ button{font:inherit;color:inherit}
 .rec .t{flex:1;font-size:16px}
 .rec .s{font-family:var(--dotf);font-size:13px;letter-spacing:.08em;color:var(--soft)}
 .rec .s.ok{color:var(--print)}
+.rec .recbtn{display:flex;align-items:baseline;gap:14px;width:100%;padding:12px 2px;margin:-12px -2px;border:0;background:none;text-align:left;cursor:pointer;font-family:var(--mincho);color:inherit}
+.rec .recbtn:hover .t{text-decoration:underline;text-underline-offset:4px}
+.rec .go-arrow{font-family:var(--gothic);color:var(--soft);font-size:18px;line-height:1}
+
 .foot{margin-top:46px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;color:var(--soft)}
 
 /* 配給ボタン */
@@ -120,6 +124,17 @@ button{font:inherit;color:inherit}
 .ticket .row2{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
 .ticket .close{border:0;background:none;color:#6F7A7E;cursor:pointer;font-size:14px;letter-spacing:.2em;padding:6px}
 .ticket .haikyu{border-color:#C6CBC8;color:#2A2F33}
+.rec li.memo{border-bottom:1px solid var(--line);padding:4px 2px 12px}
+.rec li.memo .mt{font-family:var(--dotf);font-size:12px;letter-spacing:.12em;color:var(--print)}
+.ticket .chs{margin-top:14px;border-top:1px dashed #C6CBC8;padding-top:10px}
+.ticket .chs summary{cursor:pointer;font-size:14px;letter-spacing:.24em;color:#2A2F33;list-style:none;padding:4px 0}
+.ticket .chs summary::-webkit-details-marker{display:none}
+.ticket .chs summary::after{content:"＋";float:right;color:#6F7A7E}
+.ticket .chs[open] summary::after{content:"－"}
+.ticket .chs ol{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ticket .chs a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:#2A2F33;border:1px solid #D5D9D6;padding:7px 9px;font-size:14px}
+.ticket .chs a .n{font-size:11px;color:#6F7A7E;letter-spacing:.06em;white-space:nowrap}
+.ticket .chs a.here{border-color:var(--print);background:rgba(47,102,112,.06)}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#2A2F33;color:#F6F6F1;padding:10px 16px;font-size:13px;letter-spacing:.1em;opacity:0;transition:opacity .25s;pointer-events:none;z-index:30}
 .toast.on{opacity:1}
 
@@ -166,7 +181,8 @@ button{font:inherit;color:inherit}
   <section class="rec" aria-label="観察記録">
     <h2>観察記録</h2>
     <ol>
-      <li><span class="ep">EPISODE 01</span><span class="t">失われた食卓</span><span class="s" id="rec1">未観察</span></li>
+      <li><button class="recbtn" type="button" id="rec1btn" aria-label="EPISODE 01　失われた食卓　を開く"><span class="ep">EPISODE 01</span><span class="t">失われた食卓</span><span class="s" id="rec1">未観察</span><span class="go-arrow" aria-hidden="true">›</span></button></li>
+      <li class="memo" id="memo1" hidden><span class="ep"></span><span class="mt">観察メモ　919　器：上昇中　中身：回復</span></li>
       <li><span class="ep">EPISODE 02</span><span class="t">―</span><span class="s">準備中</span></li>
     </ol>
   </section>
@@ -189,6 +205,7 @@ button{font:inherit;color:inherit}
       <a class="go" id="first" href="#">最初から読む</a>
       <a class="sub" id="resume" href="#" hidden>しおりの続きから</a>
     </div>
+    <details class="chs"><summary>章をえらぶ</summary><ol id="chlist"></ol></details>
     <div class="row2">
       <button class="haikyu" type="button" data-share="ep1"><svg viewBox="0 0 26 14" aria-hidden="true"><rect x=".5" y=".5" width="25" height="13" fill="none" stroke="currentColor"/><line x1="8" y1="1" x2="8" y2="13" stroke="currentColor" stroke-dasharray="1.5 1.5"/><rect x="11" y="4" width="11" height="1.6" fill="currentColor"/><rect x="11" y="8" width="7" height="1.6" fill="currentColor"/></svg>配給</button>
       <button class="close" type="button" id="close">とじる</button>
@@ -212,15 +229,23 @@ button{font:inherit;color:inherit}
   if(seen){gate.hidden=true;document.querySelector('.slide').style.animation='none'}
   else{set('919:gate',day());setTimeout(function(){gate.classList.add('off')},50);setTimeout(function(){gate.hidden=true},1700);gate.addEventListener('click',function(){gate.hidden=true})}
 
+  var CH=[{"n": "序章", "t": "茶碗", "b": 0}, {"n": "第一章", "t": "919", "b": 40}, {"n": "第二章", "t": "豆と米", "b": 83}, {"n": "第三章", "t": "跡", "b": 121}, {"n": "第四章", "t": "七本", "b": 153}, {"n": "第五章", "t": "空振り", "b": 190}, {"n": "第六章", "t": "二度目", "b": 232}, {"n": "第七章", "t": "525", "b": 264}, {"n": "第八章", "t": "918", "b": 291}, {"n": "第九章", "t": "白", "b": 331}, {"n": "第十章", "t": "移送", "b": 353}, {"n": "第十一章", "t": "偶数", "b": 386}, {"n": "第十二章", "t": "器と中身", "b": 434}, {"n": "終章", "t": "一人前", "b": 493}];
   var done=!!get('done:'+TITLE), bm=get('shiori:'+TITLE);
+  var bmCh=-1; try{var bo=bm?JSON.parse(bm):null; if(bo&&bo.s!=null){for(var i=0;i<CH.length;i++){if(CH[i].b<=bo.s)bmCh=i;}}}catch(e){}
   if(done){document.getElementById('ep1done').hidden=false;var r=document.getElementById('rec1');r.textContent='919　観察済み';r.classList.add('ok')}
+  if(done){document.getElementById('memo1').hidden=false}
+  else if(bmCh>=0){document.getElementById('rec1').textContent=CH[bmCh].n+'　'+CH[bmCh].t+'　まで'}
 
   var veil=document.getElementById('veil'), first=document.getElementById('first'), resume=document.getElementById('resume'), opener=null;
   first.href=WORK;
   if(bm){resume.hidden=false;resume.href=WORK+(WORK.indexOf('?')<0?'?':'&')+'shiori=1'}
+  if(bm&&bmCh>=0){resume.textContent='しおりの続きから（'+CH[bmCh].n+'　'+CH[bmCh].t+'）'}
+  var chl=document.getElementById('chlist');
+  CH.forEach(function(c,i){var li=document.createElement('li');var a=document.createElement('a');a.href=WORK+(WORK.indexOf('?')<0?'?':'&')+'ch='+i;if(i===bmCh)a.className='here';a.innerHTML='<span class="n">'+c.n+'</span><span class="t">'+c.t+'</span>';li.appendChild(a);chl.appendChild(li);});
   function open(btn){opener=btn;document.getElementById('num').textContent='No.'+num();veil.hidden=false;first.focus()}
   function close(){veil.hidden=true;if(opener)opener.focus()}
   document.getElementById('ep1').addEventListener('click',function(){open(this)});
+  document.getElementById('rec1btn').addEventListener('click',function(){open(this)});
   document.getElementById('close').addEventListener('click',close);
   veil.addEventListener('click',function(e){if(e.target===veil)close()});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!veil.hidden)close()});
