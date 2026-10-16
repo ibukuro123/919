@@ -15,14 +15,14 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="919">
 <meta property="og:title" content="919 EPISODE 01　失われた食卓">
-<meta property="og:description" content="食べものが足りなくなっていく世界で、一本の瓶が、彼の人生を狂わせた。">
+<meta property="og:description" content="食べものが足りなくなっていく世界で、一本の瓶が、彼の空腹を消した。">
 <meta property="og:url" content="https://ibukuro123.github.io/919/919.html">
 <meta property="og:image" content="https://ibukuro123.github.io/919/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="919 EPISODE 01　失われた食卓">
-<meta name="twitter:description" content="食べものが足りなくなっていく世界で、一本の瓶が、彼の人生を狂わせた。">
+<meta name="twitter:description" content="食べものが足りなくなっていく世界で、一本の瓶が、彼の空腹を消した。">
 <meta name="twitter:image" content="https://ibukuro123.github.io/919/og.png">
 
 <meta name="description" content="食べものが足りなくなりつつある町で、よしゆきは見知らぬ男から一本の飲みものを渡される。">
@@ -615,7 +615,7 @@ function update(dir){
   bi.hidden = !(bm && bp>0);
   if(bp>0) bi.textContent = 'しおりのページへ（' + bp + '）';
   const last = pages.length-1;
-  try{ if(idx===last && last>0) localStorage.setItem('done:'+DATA.title,'1'); }catch(e){}
+  /* DONEFIX */ try{ if(last>0 && visiblePages().indexOf(last)>=0) localStorage.setItem('done:'+DATA.title,'1'); }catch(e){}
   const prog = last>0 ? idx/last : 0;
   document.getElementById('liq').setAttribute('width', Math.max(0, 259*(1-prog)).toFixed(1));
   document.getElementById('finalmark').classList.toggle('show', idx===last);
