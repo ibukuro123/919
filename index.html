@@ -187,7 +187,7 @@ button{font:inherit;color:inherit}
     <h2>観察記録</h2>
     <ol>
       <li><button class="recbtn" type="button" id="rec1btn" aria-label="EPISODE 01　失われた食卓　を開く"><span class="ep">EPISODE 01</span><span class="t">失われた食卓</span><span class="s" id="rec1">未観察</span><span class="go-arrow" aria-hidden="true">›</span></button></li>
-      <li class="memo" id="memo1" hidden><span class="ep"></span><span class="mt">観察メモ　No.0919　適合率：上昇中　残存率：回復</span></li>
+      <li class="memo" id="memo1" hidden><span class="ep"></span><span class="mt">観察メモ　No.0919　カラダ：上昇中　キオク：回復</span></li>
       <li><span class="ep">EPISODE 02</span><span class="t">―</span><span class="s">準備中</span></li>
     </ol>
   </section>
@@ -234,7 +234,7 @@ button{font:inherit;color:inherit}
   if(seen){gate.hidden=true;document.querySelector('.slide').style.animation='none'}
   else{set('919:gate',day());setTimeout(function(){gate.classList.add('off')},50);setTimeout(function(){gate.hidden=true},1700);gate.addEventListener('click',function(){gate.hidden=true})}
 
-  var CH=[{"n": "序章", "t": "押しこまれたひと口", "b": 0}, {"n": "第一章", "t": "番号だけの瓶", "b": 40}, {"n": "第二章", "t": "閉じた喉", "b": 83}, {"n": "第三章", "t": "傷の残らない指", "b": 121}, {"n": "第四章", "t": "名前のついた瓶", "b": 153}, {"n": "第五章", "t": "空振りの手", "b": 190}, {"n": "第六章", "t": "二度目のひと口", "b": 232}, {"n": "第七章", "t": "灰色の先輩たち", "b": 264}, {"n": "第八章", "t": "適合と残存", "b": 291}, {"n": "第九章", "t": "味のしない記憶", "b": 331}, {"n": "第十章", "t": "白い車", "b": 353}, {"n": "第十一章", "t": "一年分の賭け", "b": 386}, {"n": "第十二章", "t": "空っぽの腹", "b": 434}, {"n": "終章", "t": "二人で一人前", "b": 493}];
+  var CH=[{"n": "序章", "t": "押しこまれたひと口", "b": 0}, {"n": "第一章", "t": "番号だけの瓶", "b": 40}, {"n": "第二章", "t": "閉じた喉", "b": 83}, {"n": "第三章", "t": "傷の残らない指", "b": 121}, {"n": "第四章", "t": "名前のついた瓶", "b": 153}, {"n": "第五章", "t": "空振りの手", "b": 190}, {"n": "第六章", "t": "二度目のひと口", "b": 232}, {"n": "第七章", "t": "灰色の先輩たち", "b": 264}, {"n": "第八章", "t": "カラダとキオク", "b": 291}, {"n": "第九章", "t": "味のしない記憶", "b": 331}, {"n": "第十章", "t": "白い車", "b": 353}, {"n": "第十一章", "t": "一年分の賭け", "b": 386}, {"n": "第十二章", "t": "空っぽの腹", "b": 434}, {"n": "終章", "t": "二人で一人前", "b": 493}];
   var done=!!get('919:done:'+TITLE), bm=get('shiori:'+TITLE);
   var bmCh=-1; try{var bo=bm?JSON.parse(bm):null; if(bo&&bo.s!=null){for(var i=0;i<CH.length;i++){if(CH[i].b<=bo.s)bmCh=i;}}}catch(e){}
   if(done){document.getElementById('ep1done').hidden=false;var r=document.getElementById('rec1');r.textContent='観察済み';r.classList.add('ok')}
