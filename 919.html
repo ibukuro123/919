@@ -27,7 +27,7 @@
 <meta name="description" content="食べものが足りなくなりつつある町で、よしゆきは見知らぬ男から一本の飲みものを渡される。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Shippori+Mincho+B1:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#F1F3EF;
@@ -48,7 +48,7 @@
       radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.18), transparent 60%),
       repeating-linear-gradient(102deg, rgba(0,0,0,.025) 0 2px, transparent 2px 5px);
     color:var(--ink);
-    font-family:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Songti SC",serif;
+    font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Songti SC",serif;
     overflow:hidden;
     -webkit-text-size-adjust:100%;
   }
@@ -756,7 +756,7 @@ bookEl.addEventListener('touchend',e=>{
 let rt;
 window.addEventListener('resize',()=>{ clearTimeout(rt); const keep=currentBlock(); rt=setTimeout(()=>layout(keep),180); });
 
-if(document.fonts && document.fonts.ready){ document.fonts.ready.then(()=>layout(null)); }
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(()=>layout(currentBlock())); }  /* 書体が読みこまれたら、今のページの場所を保って組みなおす */
 layout(null);
 
 /* 表紙の余白を、表紙の端の色でつなぐ（上下か左右かを画面の形で判定） */
@@ -777,7 +777,8 @@ window.addEventListener('resize', function(){ setTimeout(fitCov, 250); });
 /* CHJUMP: トップページからの「章をえらぶ」 */
 (function(){ var m=location.search.match(/[?&]ch=(\d+)/); if(!m) return; var c=+m[1];
   var t=function(n){ try{ if(typeof chapPage!=='undefined' && chapPage[c]){ idx=chapPage[c]; update(0); return; } }catch(e){} if(n>0) setTimeout(function(){ t(n-1); },300); };
-  setTimeout(function(){ t(6); },300); })();
+  var go=function(){ setTimeout(function(){ t(6); },300); };  /* 書体の読みこみを待ってから章へ */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go(); })();
 /* shioriAuto: トップページからの「しおりの続きから」 */
 if(/[?&]shiori=1/.test(location.search)){
   var _try=function(n){
@@ -786,7 +787,8 @@ if(/[?&]shiori=1/.test(location.search)){
     }catch(e){}
     if(n>0) setTimeout(function(){ _try(n-1); }, 300);
   };
-  setTimeout(function(){ _try(6); }, 300);
+  var _go=function(){ setTimeout(function(){ _try(6); }, 300); };  /* 書体の読みこみを待ってからしおりへ */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(_go); else _go();
 }
 </script>
 
