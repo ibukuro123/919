@@ -159,11 +159,16 @@ button{font:inherit;color:inherit}
 @media (max-width:560px){
   .wrap{padding:30px 16px 52px}
   .shelf{--bw:124px;--bh:198px;--top:18px}
-  .shelf .row{grid-template-columns:repeat(2,var(--bw));column-gap:16px}   /* スマホでは一段に二冊 */
+  /* スマホでは棚を一段にして、表紙を横に送って見る（何作になっても棚の高さは変わらない） */
+  .shelf .row{display:flex;justify-content:flex-start;gap:16px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain}
+  .shelf .row::-webkit-scrollbar{display:none}
+  .slot{flex:0 0 var(--bw);height:calc(var(--top) + var(--bh) + var(--bd));scroll-snap-align:center}
+  .shelf .post{z-index:3}   /* 送った表紙は柱の奥へ */
+  .slot:first-child{margin-left:auto}.slot:last-child{margin-right:auto}   /* はみ出さないときは左右まん中 */
 }
 @media (max-width:360px){
   .shelf{--bw:106px;--bh:170px}
-  .shelf .row{column-gap:12px}
+  .shelf .row{column-gap:12px;gap:12px}
   .book .done{left:3px;right:3px;font-size:10px;letter-spacing:0;padding:3px 2px}
 }
 </style>
@@ -269,6 +274,15 @@ button{font:inherit;color:inherit}
     if(ep.done){document.getElementById('ep'+ep.k+'done').hidden=false;r.textContent='観察済み';r.classList.add('ok');document.getElementById('memo'+ep.k).hidden=false}
     else if(ep.bmCh>=0){r.textContent=ep.CH[ep.bmCh].n+'まで'}
   });
+
+  // 棚が横に送れるときは、まだ読んでいない作（全部読んだら最新の作）が見えるところまで送っておく
+  (function(){
+    var row=document.querySelector('.shelf .row'); if(!row||row.scrollWidth<=row.clientWidth+1) return;
+    var t=null; for(var i=0;i<EPS.length;i++){ if(!EPS[i].done){ t=EPS[i]; break; } }
+    if(!t) t=EPS[EPS.length-1];
+    var s=document.getElementById('ep'+t.k).closest('.slot');
+    row.scrollLeft=Math.max(0, s.offsetLeft-row.offsetLeft-(row.clientWidth-s.offsetWidth)/2);
+  })();
 
   var veil=document.getElementById('veil'), first=document.getElementById('first'), resume=document.getElementById('resume'), chl=document.getElementById('chlist'), opener=null, cur=EPS[0];
   function fill(ep){
