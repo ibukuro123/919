@@ -1,5 +1,5 @@
 /* 919：電波がなくても読めるようにするしくみ */
-const CACHE = '919-v14';
+const CACHE = '919-v15';
 const FILES = ['./', './index.html', './919.html', './919-cover.jpg', './919-02.html', './919-02-cover.jpg', './manifest.webmanifest',
                './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon-32.png'];
 self.addEventListener('install', e => {
