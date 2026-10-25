@@ -32,7 +32,7 @@
 :root{
   --bg1:#DCE3E3; --bg2:#B8C4C6; --ink:#1D2528; --soft:#56646A; --line:rgba(29,37,40,.18);
   --paper:#F6F6F1; --paper-ink:#2A2F33; --print:#2F6670; --dot:#47567E; --glow:rgba(255,255,255,.85);
-  --shelf:#C9D1D3; --shelf-edge:#9AA6AA; --shadow:rgba(20,30,34,.28); --slot-bg:#C6CFD1; --slot-line:#A3B0B4;
+  --shelf:#C9D1D3; --shelf-edge:#9AA6AA; --shadow:rgba(20,30,34,.28); --slot-bg:#C6CFD1; --slot-line:#A3B0B4; --slot-ink:#4A5659;
   --mincho:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
   --gothic:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
   --dotf:"DotGothic16","Zen Kaku Gothic New",monospace;
@@ -42,14 +42,14 @@
   :root:not([data-theme="light"]){
     --bg1:#3E4C52; --bg2:#1E272B; --ink:#EEF2F2; --soft:#A9B6BA; --line:rgba(238,242,242,.16);
     --paper:#F2F2EC; --paper-ink:#2A2F33; --print:#7FB6BF; --dot:#47567E; --glow:rgba(255,255,255,.22);
-    --shelf:#5B676C; --shelf-edge:#3A4448; --shadow:rgba(0,0,0,.5); --slot-bg:#283236; --slot-line:#3F4C52;
+    --shelf:#5B676C; --shelf-edge:#3A4448; --shadow:rgba(0,0,0,.5); --slot-bg:#283236; --slot-line:#3F4C52; --slot-ink:#94A0A4;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg1:#3E4C52; --bg2:#1E272B; --ink:#EEF2F2; --soft:#A9B6BA; --line:rgba(238,242,242,.16);
   --paper:#F2F2EC; --paper-ink:#2A2F33; --print:#7FB6BF; --dot:#47567E; --glow:rgba(255,255,255,.22);
-  --shelf:#5B676C; --shelf-edge:#3A4448; --shadow:rgba(0,0,0,.5); --slot-bg:#283236; --slot-line:#3F4C52;
+  --shelf:#5B676C; --shelf-edge:#3A4448; --shadow:rgba(0,0,0,.5); --slot-bg:#283236; --slot-line:#3F4C52; --slot-ink:#94A0A4;
   color-scheme:dark;
 }
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -73,7 +73,7 @@ button{font:inherit;color:inherit}
 .shelf{position:relative;padding:0 18px;margin-bottom:46px;
   --bw:150px; --bh:240px; --top:22px; --bd:36px;
   --tag-bg:#D5DDDE; --tag-ink:#26302F}
-.shelf .row{display:grid;grid-template-columns:repeat(auto-fill,var(--bw));grid-auto-rows:calc(var(--top) + var(--bh) + var(--bd));column-gap:22px;row-gap:0;
+.shelf .row{display:grid;grid-template-columns:repeat(auto-fit,var(--bw));justify-content:center;grid-auto-rows:calc(var(--top) + var(--bh) + var(--bd));column-gap:22px;row-gap:0;
   margin:0 -18px;padding:0 24px;border-radius:2px;
   background-image:linear-gradient(180deg,transparent calc(var(--top) + var(--bh)),var(--shelf) calc(var(--top) + var(--bh)),var(--shelf) calc(var(--top) + var(--bh) + 8px),var(--shelf-edge) calc(var(--top) + var(--bh) + 8px),var(--shelf) calc(var(--top) + var(--bh) + var(--bd)));
   background-size:100% calc(var(--top) + var(--bh) + var(--bd));background-repeat:repeat-y;
@@ -83,7 +83,8 @@ button{font:inherit;color:inherit}
 .slot{position:relative;width:var(--bw);padding-top:var(--top)}
 .slot .tag{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);white-space:nowrap;font-family:var(--dotf);font-size:10px;line-height:14px;letter-spacing:.08em;
   background:var(--tag-bg);color:var(--tag-ink);padding:1px 7px;border-radius:1px;box-shadow:0 1px 2px rgba(0,0,0,.28)}
-.slot .frame{display:block;width:var(--bw);height:var(--bh);background:var(--slot-bg);border:1px solid var(--slot-line)}
+.slot .frame{display:flex;align-items:center;justify-content:center;width:var(--bw);height:var(--bh);background:var(--slot-bg);border:1px solid var(--slot-line);
+  font-family:var(--dotf);font-size:12px;letter-spacing:.2em;padding-left:.2em;color:var(--slot-ink)}
 .book{display:block;border:0;padding:0;background:none;cursor:pointer;position:relative}
 .book img{display:block;width:var(--bw);height:var(--bh);object-fit:cover;box-shadow:0 12px 20px -10px var(--shadow),0 0 0 1px rgba(0,0,0,.08);transition:transform .25s}
 .book:hover img{transform:translateY(-6px)}
@@ -195,7 +196,7 @@ button{font:inherit;color:inherit}
         <span class="tag" aria-hidden="true">EPISODE 02</span>
       </div>
       <div class="slot empty" aria-label="EPISODE 03　まだ出ていません">
-        <span class="frame" aria-hidden="true"></span>
+        <span class="frame" aria-hidden="true">準備中</span>
         <span class="tag" aria-hidden="true">EPISODE 03</span>
       </div>
     </div>
